@@ -5,8 +5,8 @@ from flask import jsonify, abort
 from flasgger import swag_from
 from flask_restful import Resource
 from flask_restful.reqparse import Argument
-from repositories import SellerRepository, VerificationTokenRepository
-from utils import parse_params, Notification
+from repositories import SellerRepository
+from utils import parse_params
 from utils.errors import DataNotFound
 
 
@@ -40,17 +40,15 @@ class SellerResource(Resource):
         Argument("last_name", location="json",
                  help="The last_name of the seller."),
         Argument("phone", location="json",
-                 help="The phone details of the seller."),
-        Argument("email", location="json",
-                 help="The email details of the seller.")
+                 help="The phone details of the seller.")
     )
     # @swag_from("../swagger/seller/PUT.yml")
-    def update_seller(seller_id, last_name, first_name, phone, email):
+    def update_seller(seller_id, last_name, first_name):
         """ Update a seller based on the provided information """
         print(seller_id)
         repository = SellerRepository()
         seller = repository.update(
-            last_name=last_name, first_name=first_name, phone=phone, email=email
+            seller_id=seller_id, last_name=last_name, first_name=first_name
         )
         return jsonify({"data": seller.json})
 
@@ -60,27 +58,28 @@ class SellerResource(Resource):
                  help="The first_name of the seller."),
         Argument("last_name", location="json", required=True,
                  help="The last_name of the seller."),
-        Argument("username", location="json", required=True,
-                 help="The username details of the seller."),
-        Argument("email", location="json", required=True,
-                 help="The email details of the seller."),
         Argument("phone", location="json", required=True,
                  help="The phone details of the seller."),
+        Argument("username", location="json", required=True,
+                 help="The username of the seller."),
+        Argument("email", location="json", required=True,
+                 help="The email of the seller."),
         Argument("password", location="json", required=True,
-                 help="The passord details of the seller.")
+                 help="The password of the seller."),
     )
     # @swag_from("../swagger/seller/POST.yml")
-    def post(last_name, first_name, username, email, password, phone):
+    def post(last_name, first_name, phone, username, email, password):
         """ Create a seller based on the provided information """
         # Check duplicates
+        seller = SellerRepository.create(
+            last_name=last_name, first_name=first_name, phone=phone, username=username, email=email, password=password
+        )
+        return jsonify({"data": seller.json})
+    
 
-        try:
-            seller = SellerRepository.create(
-                last_name=last_name, first_name=first_name,
-                username=username, email=email, password=password,
-                phone=phone
-            )
-            return jsonify({"data": seller.json})
+    def delete(seller_id):
+        """ delete a seller based on the seller id provided """
+        # fetch seller
+        seller = SellerRepository.delete(seller_id=seller_id)
 
-        except:
-            abort(400)
+        return jsonify({ "data": seller.json })

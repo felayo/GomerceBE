@@ -2,8 +2,6 @@
 import sys
 from sqlalchemy import or_
 from models import Seller
-from utils import Notification
-from repositories.verification_token import VerificationTokenRepository
 from utils.errors import DataNotFound, DuplicateData, InternalServerError
 from sqlalchemy.exc import IntegrityError
 
@@ -44,13 +42,11 @@ class SellerRepository:
         """ Query all sellers"""
         sellers = Seller.query.all()
         all_sellers = [seller.json for seller in sellers]
-
         return all_sellers
 
     def update(self, seller_id, **args):
         """ Update a seller's details """
-        seller = Seller.query.get(seller_id)
-
+        seller = self.get(seller_id)
         if 'phone' in args and args['phone'] is not None:
             seller.phone = args['phone']
 
@@ -69,47 +65,33 @@ class SellerRepository:
         return seller.save()
 
     @staticmethod
-    def create(username, last_name, first_name, password, email,
-                phone, rating=0, email_verified=False, 
-                phone_verified=False):
+    def create(username, last_name, first_name, email, password, phone=None):
         """ Create a new seller """
-        error=False
         try:
             new_seller = Seller(username=username, first_name=first_name,
-                                last_name=last_name, email=email, phone=phone,
-                                rating=rating, email_verified=email_verified, 
-                                phone_verified=phone_verified)
+                                last_name=last_name, email=email, phone=phone)
             new_seller.set_password(password)
-
-            # # create verification tokens for the email and phone
-            # email_token = VerificationTokenRepository.create(user_id=new_seller.id,
-            #                                                     user_type="seller", email=True,
-            #                                                     phone=False)
-            # if not email_token:
-            #     error = True
-
-            # if not error:
-            #     # create email template for verification token
-            #     email_confirm_url = f"http://localhost:2000/confirm_email/{email_token}"
-            #     email_notification = Notification(email=True)
-            #     email_message = email_notification.create_email_template("user_verification_email.html",
-            #                                                                 confirm_url=email_confirm_url,
-            #                                                                 new_seller=new_seller)
-
-            #     # send email verification notification
-            #     recipient = {
-            #         "name": f"{new_seller.first_name} {new_seller.last_name}",
-            #         "email": new_seller.email
-            #     }
-            #     subject = "Customer Email Verification"
-            #     Notification.send_email(
-            #         message=email_message, to=recipient, subject=subject)
 
             return new_seller.save()
         except IntegrityError as e:
-            error = True 
             message = e.orig.diag.message_detail
             raise DuplicateData(message)
         except Exception:
-            error=True
             raise InternalServerError
+
+    @staticmethod
+    def delete(seller_id):
+        """ Delete a seller by seller_id """
+
+        # make sure seller_id was passed
+        if not seller_id:
+            raise DataNotFound(f"Seller not found, no detail provided")
+
+        try:
+            query = Seller.query.filter(Seller.id == seller_id)
+
+            seller = query.first()
+            return seller.delete()
+        except DataNotFound as e:
+            print(sys.exc_info())
+            raise DataNotFound(f"Seller with {seller_id} not found")\

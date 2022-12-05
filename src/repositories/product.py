@@ -81,6 +81,7 @@ class ProductRepository:
         return product.save()
     
     @staticmethod
+    @requires_role('seller')
     def create(title, price, quantity, short_desc, long_desc, thumbnail, image, rating=None):
         """ Create a new product """
         try:

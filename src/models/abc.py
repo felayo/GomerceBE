@@ -77,3 +77,6 @@ class BaseModel:
     def delete(self):
         db.session.delete(self)
         db.session.commit()
+
+    def rollback():
+        db.session.rollback()

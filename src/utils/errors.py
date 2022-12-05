@@ -44,6 +44,11 @@ class NotificationFailed(Exception):
         self.code = 500
         self.message = message
 
+class AuthError(Exception):
+    def __init__(self, error, status_code):
+        self.error = error
+        self.status_code = status_code
+
 
 errors = {
     "InternalServerError": {

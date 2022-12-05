@@ -24,8 +24,8 @@ class Product(db.Model, BaseModel, metaclass=MetaBaseModel):
     updated_at = db.Column(db.DateTime(), default=datetime.utcnow)
 
     #Foreign Key
-    sellers_id = db.Column(db.Integer, db.ForeignKey('sellers.id'), nullable=False)
-    product_categories_id = db.Column(db.Integer, db.ForeignKey('product_categories.id'), nullable=False)
+    # sellers_id = db.Column(db.Integer, db.ForeignKey('sellers.id'), nullable=False)
+    # product_categories_id = db.Column(db.Integer, db.ForeignKey('product_categories.id'), nullable=False)
 
     #Relationship
     reviews = db.relationship('Review', backref='products', lazy=True)

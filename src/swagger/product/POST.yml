@@ -1,0 +1,65 @@
+title: Create a product
+description: Return a product's key information after successful creation
+tags:
+  - product-creation
+requestBody:
+  description: Basic information needed to create a product
+  content:
+    application/json:
+      schema:
+        title:
+          type: string
+          example: iPhone 11 Pro Max
+          description: the name of the product
+        price:
+          type: float
+          example: 300.00
+          description: the price of the product
+        quantity:
+          type: int
+          example: 5
+          description: the quantity of the product
+        short_desc:
+          type: string
+          example: A mobile phone
+          description: a short description of the product
+        long_desc:
+          type: string
+          example: A mobile phone that has the capability of a pc or mac
+          description: a long description of the product
+        image:
+          type: string
+          example: A picture of the phone
+          description: an image of the product
+        thumbnail:
+          type: string
+          example: A thumbnail of the phone
+          description: an small-image of the product
+        rating:
+          type: int
+          example: 3
+          description: a rating of the product
+      example:
+        title: iPhone 14 Pro Max
+        quantity: 10
+        short_desc: A mobile phone
+        long_desc: A mobile phone that has the capability of a pc or mac
+        image: A picture of the phone
+        price: 1500.00
+        thumbnail: A small-picture
+        rating: 3
+  required: true
+responses:
+  201:
+    description: The product's identity was verified and product registered successfully
+    content:
+      application/json:
+        example:
+          data:
+            created_at: 2022-09-21
+            title: iPhone 11 Pro Max
+            price: 300
+            quantity: 5
+            short_desc: A mobile phone
+            long_desc: An Apple product that is looking to change the world. It is awesome.
+

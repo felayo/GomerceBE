@@ -73,7 +73,8 @@ class SellerResource(Resource):
         """ Create a seller based on the provided information """
         # Check duplicates
         seller = SellerRepository.create(
-            last_name=last_name, first_name=first_name, phone=phone, username=username, email=email, password=password
+            last_name=last_name, first_name=first_name, phone=phone,
+            username=username, email=email, password=password
         )
         return jsonify({"data": seller.json})
     

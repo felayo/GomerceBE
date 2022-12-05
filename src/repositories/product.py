@@ -1,7 +1,9 @@
-""" Defines the Customer repository """
+""" Defines the Product repository """
 import sys
+from flask import jsonify, abort
 from sqlalchemy import or_
-from models import Product
+from models import Product, ProductCategory, Seller
+from utils.auth_decorators import requires_role
 from utils.errors import DataNotFound, DuplicateData, InternalServerError
 from sqlalchemy.exc import IntegrityError
 
@@ -32,7 +34,31 @@ class ProductRepository:
     def getAll():
         """ Query all products"""
         products = Product.query.all()
-        all_products = [product.json for product in products]
-        return all_products
+        return  [product.json for product in products]
 
-   
+    @staticmethod
+    @requires_role('seller')
+    def create(title, price, quantity, short_desc, long_desc=None, image=None,
+        thumbnail=None, rating=None
+    ):
+        """Create new product"""
+        try:
+            product = Product(title=title, price=price, quantity=quantity,
+                                  short_desc=short_desc, long_desc=long_desc,
+                                  image=image, thumbnail=thumbnail, rating=rating
+            )
+            product.save()
+        except IntegrityError as e:
+            Product.rollback()
+            message = e.orig.diag.message_detail
+            print(message)
+            raise DuplicateData(message)
+        except Exception as e:
+            Product.rollback()
+            raise DataNotFound(e)
+
+        return jsonify({
+            "Product" : product.title,
+            "Quantity" : product.quantity,
+            "Description" : product.short_desc
+        })

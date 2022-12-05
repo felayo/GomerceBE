@@ -49,9 +49,10 @@ class SellerRepository:
         all_sellers = [seller.json for seller in sellers]
         return all_sellers
 
+    @staticmethod
     def update(self, seller_id, **args):
         """ Update a seller's details """
-        seller = self.get(seller_id)
+        seller = Seller.query.get(seller_id)
         if 'phone' in args and args['phone'] is not None:
             seller.phone = args['phone']
 
@@ -67,7 +68,7 @@ class SellerRepository:
         if 'rating' in args and args['rating'] is not None:
             seller.rating = args['rating']
 
-        return seller.save()
+        return seller.save
 
     @staticmethod
     def create(username, last_name, first_name, email, password, phone=None):
@@ -76,25 +77,32 @@ class SellerRepository:
             new_seller = Seller(username=username, first_name=first_name,
                                 last_name=last_name, email=email, phone=phone)
             new_seller.set_password(password)
-            
+
             if len(password) < 6:
                 return jsonify({"error": "Password must be at least 6 characters"}), 400
 
-            seller = new_seller.save()
-            
+            new_seller.save()
+
+            token = jwt.encode({
+                "id": new_seller.id,
+                "username" : new_seller.username,
+                "role": "seller",
+                "exp": datetime.now() + timedelta(days=1)
+            },
+                os.environ.get("SECRET_KEY"),
+                algorithm="HS256"
+            )
+
         except IntegrityError as e:
+            Seller.rollback()
             message = e.orig.diag.message_detail
             raise DuplicateData(message)
-        except Exception:
+        except:
+            Seller.rollback()
             raise InternalServerError
         
-        token = jwt.encode(
-            {"id": seller.id, "exp": datetime.now() + timedelta(days=1)},
-            os.environ.get("SECRET_KEY"),
-            algorithm="HS256",
-        )
-        
-        return jsonify({"seller": seller.username, "token": token})
+
+        return jsonify({"seller": new_seller.username, "token": token})
         
         
 

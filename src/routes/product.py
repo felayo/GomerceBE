@@ -13,4 +13,5 @@ PRODUCT_BLUEPRINT.route(
 
 PRODUCT_BLUEPRINT.route("/products/<int:product_id>",
                         methods=['GET'])(ProductResource.get_one)
-
+PRODUCT_BLUEPRINT.route("/products",
+                        methods=['POST'])(ProductResource.post)

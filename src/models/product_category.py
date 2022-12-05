@@ -19,4 +19,4 @@ class ProductCategory(db.Model, BaseModel, metaclass=MetaBaseModel):
     updated_at = db.Column(db.DateTime(), default=datetime.utcnow)
 
     #Relationship
-    products = db.relationship('Product', backref='product_categories', lazy=True)
+    # products = db.relationship('Product', backref='product_categories', lazy=True)

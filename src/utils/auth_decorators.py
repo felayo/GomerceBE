@@ -4,7 +4,7 @@ from flask import jsonify, request
 from .errors import *
 import config
 import sys
-from repositories import UserRepository
+#from repositories import UserRepository
 
 
 def get_token_auth_header():
@@ -27,21 +27,51 @@ def get_token_auth_header():
             'Authorization or x-access-token header is expected.')
     return token
 
+def check_role(role, payload):   
+    # checks if the payload has roles within
+    if 'role' not in payload:
+        raise AuthError({
+            'code' : 'invalid claims',
+            'description' : 'permissions not included in jwt'
+        }, 400)
 
-def token_required(f):
-    """ Verify token for restricted routes"""
+    # checks if the claimed role is indeed true 
+    if role not in payload['role']:
+        raise AuthError({
+            'code' : 'unauthorized',
+            'description' : 'permission not included'
+        }, 403) 
+
+    return True
+
+def requires_role(role=''):
+    def requires_auth_decorator(f):
+        @wraps(f)
+        def wrapper(*args, **kwargs):
+            token = get_token_auth_header()
+            payload = jwt.decode(
+                token, config.SECRET_KEY, algorithms=["HS256"])
+            check_role(role, payload)
+            return f(*args,**kwargs)
+
+        return wrapper
+    return requires_auth_decorator
+
+
+""" def token_required(f):
+    Verify token for restricted routes
     @wraps(f)
     def decorator(*args, **kwargs):
         token = get_token_auth_header()
-
         try:
             data = jwt.decode(
                 token, config.SECRET_KEY, algorithms=["HS256"])
             current_user = UserRepository.get(user_id=data['user_id'])
+
         except Unauthorized as e:
             return jsonify({'message': e.message}), e.code
         except Exception:
             return jsonify({'message': "Unauthorized"}), 401
 
         return f(current_user, *args, **kwargs)
-    return decorator
+    return decorator """

@@ -81,11 +81,11 @@ class ProductRepository:
         return product.save()
     
     @staticmethod
-    def create(title, price, quantity, short_desc, thumbnail, image, sellers_id, product_categories_id):
+    def create(title, price, quantity, short_desc, long_desc, thumbnail, image, rating=None):
         """ Create a new product """
         try:
-            new_product = Product(title=title, price=price, quantity=quantity, short_desc=short_desc,
-                                  thumbnail=thumbnail, image=image, sellers_id=sellers_id, product_categories_id=product_categories_id)
+            new_product = Product(title=title, price=price, quantity=quantity, short_desc=short_desc, long_desc=long_desc,
+                                  thumbnail=thumbnail, image=image, rating=rating)
 
             return new_product.save()
 

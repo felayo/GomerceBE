@@ -15,3 +15,10 @@ PRODUCT_BLUEPRINT.route("/products/<int:product_id>",
                         methods=['GET'])(ProductResource.get_one)
 PRODUCT_BLUEPRINT.route("/products",
                         methods=['POST'])(ProductResource.post)
+PRODUCT_BLUEPRINT.route("/products", methods=['POST'])(ProductResource.post)
+
+PRODUCT_BLUEPRINT.route("products/<int:product_id>",
+                       methods=["DELETE"])(ProductResource.delete)
+
+PRODUCT_BLUEPRINT.route("products/<int:product_id>",
+                       methods=["PUT"])(ProductResource.update_product)

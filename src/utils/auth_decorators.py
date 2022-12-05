@@ -1,10 +1,12 @@
+import os
 import jwt
 from functools import wraps
-from flask import jsonify, request
+from flask import jsonify, request, g
 from .errors import *
 import config
 import sys
-#from repositories import UserRepository
+##from repositories import UserRepository
+from repositories import SellerRepository
 
 
 def get_token_auth_header():

@@ -1,4 +1,4 @@
-""" Defines the Customer repository """
+""" Defines the Seller repository """
 import jwt
 import os
 from datetime import datetime, timedelta
@@ -8,7 +8,6 @@ from flask import jsonify
 from models import Seller
 from utils.errors import DataNotFound, DuplicateData, InternalServerError
 from sqlalchemy.exc import IntegrityError
-
 
 
 class SellerRepository:
@@ -74,18 +73,18 @@ class SellerRepository:
     def create(username, last_name, first_name, email, password, phone=None):
         """ Create a new seller """
         try:
-            new_seller = Seller(username=username, first_name=first_name,
+            seller = Seller(username=username, first_name=first_name,
                                 last_name=last_name, email=email, phone=phone)
-            new_seller.set_password(password)
+            seller.set_password(password)
 
             if len(password) < 6:
                 return jsonify({"error": "Password must be at least 6 characters"}), 400
 
-            new_seller.save()
+            seller.save()
 
             token = jwt.encode({
-                "id": new_seller.id,
-                "username" : new_seller.username,
+                "id": seller.id,
+                "username" : seller.username,
                 "role": "seller",
                 "exp": datetime.now() + timedelta(days=1)
             },
@@ -100,11 +99,14 @@ class SellerRepository:
         except:
             Seller.rollback()
             raise InternalServerError
-        
 
-        return jsonify({"seller": new_seller.username, "token": token})
-        
-        
+        return jsonify({
+            "seller": seller.username, 
+            "email": seller.email,
+            "firstName": seller.first_name,
+            "lastName": seller.last_name, 
+            "token": token
+            })
 
     @staticmethod
     def delete(seller_id):

@@ -79,7 +79,8 @@ class SellerResource(Resource):
             username=username, email=email, password=password
         )
         return jsonify({"data": seller.json})
-    
+ 
+
 
     def delete(seller_id):
         """ delete a seller based on the seller id provided """

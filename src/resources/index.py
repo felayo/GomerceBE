@@ -13,4 +13,8 @@ class IndexResource(Resource):
     @swag_from("../swagger/index.yml")
     def get():
         """ Return a message for the customer accessing the home """
-        return jsonify({"message": "Welcome to Gomerce API"})
+        return jsonify({
+            "message": "Welcome to Gomerce API",
+            "status" : "success",
+            "code" : 200
+        })

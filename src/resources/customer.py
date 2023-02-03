@@ -31,7 +31,11 @@ class CustomerResource(Resource):
     def get_all():
         """ Return all customer key information based on the query parameter """
         customers = CustomerRepository.getAll()
-        return jsonify({"data": customers})
+        return jsonify({
+            "data": customers,
+            "status" : "success",
+            "code" : 200
+        })
 
     @staticmethod
     @parse_params(
@@ -48,9 +52,16 @@ class CustomerResource(Resource):
         print(customer_id)
         repository = CustomerRepository()
         customer = repository.update(
-            customer_id=customer_id, last_name=last_name, first_name=first_name, age=age
+            customer_id=customer_id,
+            last_name=last_name,
+            first_name=first_name,
+            age=age
         )
-        return jsonify({"data": customer.json})
+        return jsonify({
+            "data": customer.json,
+            "status" : "success",
+            "code" : 200
+        })
 
     @staticmethod
     @parse_params(
@@ -68,4 +79,8 @@ class CustomerResource(Resource):
         customer = CustomerRepository.create(
             last_name=last_name, first_name=first_name, age=age
         )
-        return jsonify({"data": customer.json})
+        return jsonify({
+            "data": customer.json,
+            "status" : "success",
+            "code" : 200
+        })

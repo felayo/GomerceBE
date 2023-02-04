@@ -1,0 +1,50 @@
+title: Create a seller
+description: Create a seller based on the provided information
+tags:
+  - sellers
+parameters:
+  - name: first_name
+    in: query
+    type: string
+    description: the first name of the seller
+  - name: last_name
+    in: query
+    type: string
+    description: the last name of the seller
+  - name: phone
+    in: query
+    type: string
+    description: the phone number of the seller
+  - name: username
+    in: query
+    type: string
+    description: the username of the seller
+  - name: email
+    in: query
+    type: string
+    description: the email of the seller
+  - name: password
+    in: query
+    type: string
+    description: the password of the seller
+responses:
+  200:
+    description: a JSON representation of the created resource
+    schema:
+      example:
+        {
+          "data": {
+            "seller": johndoe123, 
+            "email": john_doe@seller.com,
+            "firstName": John,
+            "lastName": Doe, 
+            "token": "sdbsj43834c...34csfs"
+            }
+        }
+  400:
+    description: an error message indicating password must be at least 6 characters
+    schema:
+      example:
+        {
+          "error": "Password must be at least 6 characters"
+        }

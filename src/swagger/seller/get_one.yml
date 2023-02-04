@@ -1,18 +1,31 @@
 title: Get a seller
-description: Return a seller key information based on his name
+description: Return a seller key information based on the seller id
 tags:
   - seller
 parameters:
-  - name: first_name
+  - name: seller_id
     in: path
     type: string
-    description: the first name of the seller
+    description: the seller id of the seller
 responses:
   200:
     description: The seller's information were successfully retrieved
     schema:
       example:
-        seller:
-          last_name: Doe
-          first_name: John
-          phone: 01-2345-6789
+        {
+          'data': {
+                    "seller": johndoe, 
+                    "email": johndoe@gmail.com,
+                    "firstName": John,
+                    "lastName": Doe,
+                    "phone": "+2347011868354",
+                    "rating": 4.5,
+                  }
+        }
+    400:
+    description: The seller's information was not found
+    schema:
+      example:
+        {
+          'message': "Seller with seller id 4 not found"
+        }

@@ -1,0 +1,35 @@
+title: Update a seller
+description: Update a seller's information based on seller_id
+tags:
+  - sellers
+parameters:
+  - name: seller_id
+    in: path
+    type: int
+    description: the seller_id of the seller
+  - name: last_name
+    in: query
+    type: string
+    description: the last name of the seller
+  - name: first_name
+    in: query
+    type: string
+    description: the first name of the seller
+  - name: phone
+    in: query
+    type: string
+    description: the phone number of the seller
+responses:
+  200:
+    description: a JSON representation of the updated resource
+    schema:
+      example:
+        {
+          "data": {
+                    "seller": johndoe123, 
+                    "email": john_doe@seller.com,
+                    "firstName": John,
+                    "lastName": Doe, 
+                    "token": "sdbsj43834c...34csfs"
+                  }
+        }

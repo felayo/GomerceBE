@@ -1,0 +1,17 @@
+title: Delete a seller
+description: Delete a seller's information based on seller_id
+tags:
+  - sellers
+parameters:
+  - name: seller_id
+    in: path
+    type: int
+    description: the seller_id of the seller
+responses:
+  200:
+    description: Message indicating the seller was successfully deleted
+    schema:
+      example:
+        {
+          "message": "seller successfully deleted",
+        }

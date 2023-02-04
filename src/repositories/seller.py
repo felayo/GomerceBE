@@ -39,13 +39,13 @@ class SellerRepository:
             return seller
         except DataNotFound as e:
             print(sys.exc_info())
-            raise DataNotFound(f"Seller with {seller_id} not found")
+            raise DataNotFound(f"Seller with seller id {seller_id} not found")
 
     @staticmethod
     def getAll():
         """ Query all sellers"""
         sellers = Seller.query.all()
-        all_sellers = [seller.json for seller in sellers]
+        all_sellers = [seller.to_dict() for seller in sellers]
         return all_sellers
 
     def update(self, seller_id, **args):

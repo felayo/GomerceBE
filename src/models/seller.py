@@ -37,3 +37,14 @@ class Seller(db.Model, BaseModel, metaclass=MetaBaseModel):
     reviews = db.relationship('Review', backref='sellers', lazy=True)
     stores = db.relationship('Store', backref='sellers', lazy=True)
     orders = db.relationship('Order', backref='sellers', lazy=True)
+
+    def to_dict(self):
+        """ converts the dictionary representation """
+        return {
+                "seller": self.username, 
+                "email": self.email,
+                "firstName": self.first_name,
+                "lastName": self.last_name,
+                "phone": self.phone,
+                "rating": self.rating,
+              }

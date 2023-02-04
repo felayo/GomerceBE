@@ -1,16 +1,7 @@
 title: Get all sellers
-description: Return all sellers key information based the query parameter
+description: Return all seller resources
 tags:
   - sellers
-parameters:
-  - name: first_name
-    in: query
-    type: string
-    description: the first name of the customer
-  - name: last_name
-    in: query
-    type: string
-    description: the last name of the customer
 responses:
   200:
     description: The sellers information were successfully retrieved
@@ -19,7 +10,37 @@ responses:
         {
           "data":
             [
-              { "last_name": Doe, "first_name": John, "age": 30 },
-              { "last_name": "Roe", "first_name": "Jerry", "age": 23 },
-            ],
+              {
+                "seller": johndoe, 
+                "email": johndoe@gmail.com,
+                "firstName": Jonh,
+                "lastName": Doe,
+                "phone": "+2347011868354",
+                "rating": 4.5,
+              },
+              {
+                "seller": johndoe, 
+                "email": johndoe@gmail.com,
+                "firstName": Jonh,
+                "lastName": Doe,
+                "phone": "+2347011868354",
+                "rating": 4.5,
+              },
+              {
+                "seller": johndoe, 
+                "email": johndoe@gmail.com,
+                "firstName": Jonh,
+                "lastName": Doe,
+                "phone": "+2347011868354",
+                "rating": 4.5,
+              },
+              {
+                "seller": johndoe, 
+                "email": johndoe@gmail.com,
+                "firstName": Jonh,
+                "lastName": Doe,
+                "phone": "+2347011868354",
+                "rating": 4.5,
+              }
+            ]
         }

@@ -21,9 +21,9 @@ class SellerResource(Resource):
 
         try:
             seller = SellerRepository.get(seller_id=seller_id)
-            return jsonify({"data": seller.json})
+            return jsonify({"data": seller.to_dict()})
         except DataNotFound as e:
-            abort(404, e.message)
+            return jsonify({"message": e.message}), 404
         except Exception:
             abort(500)
 
@@ -45,7 +45,7 @@ class SellerResource(Resource):
                  help="The phone details of the seller.")
     )
     
-    # @swag_from("../swagger/seller/PUT.yml")
+    @swag_from("../swagger/seller/update.yml")
     def update_seller(seller_id, last_name, first_name, phone):
         """ Update a seller based on the provided information """
         print(seller_id)
@@ -70,7 +70,8 @@ class SellerResource(Resource):
         Argument("password", location="json", required=True,
                  help="The password of the seller."),
     )
-    # @swag_from("../swagger/seller/POST.yml")
+
+    @swag_from("../swagger/seller/create.yml")
     def post(last_name, first_name, phone, username, email, password):
         """ Create a seller based on the provided information """
         # Check duplicates
@@ -79,7 +80,7 @@ class SellerResource(Resource):
         )
         return jsonify({"data": seller.json})
     
-
+    @swag_from("../swagger/seller/delete.yml")
     def delete(seller_id):
         """ delete a seller based on the seller id provided """
         # fetch seller

@@ -20,7 +20,11 @@ class OrderDetailResource(Resource):
 
         try:
             order_detail = OrderDetailRepository.get(detail_id=detail_id)
-            return jsonify({"data": order_detail.json})
+            return jsonify({
+                "data": order_detail.json,
+                "status": "success",
+                "code": 200
+            })
         except DataNotFound as e:
             abort(404, e.message)
         except Exception:
@@ -29,6 +33,12 @@ class OrderDetailResource(Resource):
     @staticmethod
     @swag_from("../swagger/order_detail/get_all.yml")
     def get_all():
-        """ Return all order detail key information based on the query parameter """
+        """
+        Return all order detail key information based on the query parameter
+        """
         order_details = OrderDetailRepository.getAll()
-        return jsonify({"data": order_details})
+        return jsonify({
+            "data": order_details,
+            "status": "success",
+            "code": 200
+        })

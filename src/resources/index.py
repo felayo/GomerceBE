@@ -15,6 +15,6 @@ class IndexResource(Resource):
         """ Return a message for the customer accessing the home """
         return jsonify({
             "message": "Welcome to Gomerce API",
-            "status" : "success",
-            "code" : 200
+            "status": "success",
+            "code": 200
         })

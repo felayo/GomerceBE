@@ -20,7 +20,11 @@ class CouponResource(Resource):
 
         try:
             coupon = CouponRepository.get_one(coupon_id=coupon_id)
-            return jsonify({"data": coupon.json})
+            return jsonify({
+                "data": coupon.json,
+                "status": "success",
+                "code": 200
+            })
         except DataNotFound as e:
             abort(404, e.message)
         except Exception:
@@ -31,7 +35,11 @@ class CouponResource(Resource):
     def get_all():
         """ Return all coupon key information based on the query parameter """
         coupon = CouponRepository.get_all()
-        return jsonify({"data": coupon})
+        return jsonify({
+            "data": coupon,
+            "status": "success",
+            "code": 200
+        })
 
     @staticmethod
     @parse_params(
@@ -46,9 +54,14 @@ class CouponResource(Resource):
         """ Update a copon based on the provided information """
         repository = CouponRepository()
         coupon = repository.update(
-            coupon_id=coupon_id, code=code, amount=amount, expires_at=expires_at
+            coupon_id=coupon_id, code=code, amount=amount,
+            expires_at=expires_at
         )
-        return jsonify({"data": coupon.json})
+        return jsonify({
+            "data": coupon.json,
+            "status": "success",
+            "code": 200
+        })
 
     @staticmethod
     @parse_params(
@@ -64,4 +77,8 @@ class CouponResource(Resource):
         coupon = CouponRepository.create(
             amount, code, expires_at
         )
-        return jsonify({"data": coupon.json})
+        return jsonify({
+            "data": coupon.json,
+            "status": "success",
+            "code": 200
+        })

@@ -20,7 +20,11 @@ class PaymentDetailResource(Resource):
 
         try:
             payment_detail = PaymentDetailRepository.get(detail_id=detail_id)
-            return jsonify({"data": payment_detail.json})
+            return jsonify({
+                "data": payment_detail.json,
+                "status": "success",
+                "code": 200
+            })
         except DataNotFound as e:
             abort(404, e.message)
         except Exception:
@@ -31,4 +35,8 @@ class PaymentDetailResource(Resource):
     def get_all():
         """ Return all payment detail key information based on the query parameter """
         payment_details = PaymentDetailRepository.getAll()
-        return jsonify({"data": payment_details})
+        return jsonify({
+            "data": payment_details,
+            "status": "success",
+            "code": 200
+        })

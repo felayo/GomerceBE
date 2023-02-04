@@ -20,7 +20,11 @@ class OrderResource(Resource):
 
         try:
             order = OrderRepository.get(order_id=order_id)
-            return jsonify({"data": order.json})
+            return jsonify({
+                "data": order.json,
+                "status": "success",
+                "code": 200
+            })
         except DataNotFound as e:
             abort(404, e.message)
         except Exception:
@@ -31,4 +35,8 @@ class OrderResource(Resource):
     def get_all():
         """ Return all order key information based on the query parameter """
         orders = OrderRepository.getAll()
-        return jsonify({"data": orders})
+        return jsonify({
+            "data": orders,
+            "status": "success",
+            "code": 200
+        })

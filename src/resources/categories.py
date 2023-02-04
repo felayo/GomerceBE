@@ -19,7 +19,11 @@ class CategoriesResource(Resource):
 
         try:
             products = CategoriesRepository.get(category_id=category_id)
-            return jsonify({"data": products.json})
+            return jsonify({
+                "data": products.json,
+                "status": "success",
+                "code": 200
+            })
         except DataNotFound as e:
             abort(404, e.message)
         except Exception:
@@ -28,9 +32,14 @@ class CategoriesResource(Resource):
     @staticmethod
     @swag_from("../swagger/category/get_all.yml")
     def get_all():
-        """ Return all category key information based on the query parameter """
+        """ Return all category key information based on the query parameter
+        """
         caetgories = CategoriesRepository.getAll()
-        return jsonify({"data": caetgories})
+        return jsonify({
+            "data": caetgories,
+            "status": "success",
+            "code": 200
+        })
 
     @staticmethod
     @parse_params(
@@ -45,7 +54,11 @@ class CategoriesResource(Resource):
         category = repository.update(
             category_id=category_id, name=name, sku=sku
         )
-        return jsonify({"data": category.json})
+        return jsonify({
+            "data": category.json,
+            "status": "success",
+            "code": 200
+        })
 
     @staticmethod
     @parse_params(
@@ -60,4 +73,8 @@ class CategoriesResource(Resource):
             name=name,
             sku=sku
         )
-        return jsonify({"data": category.json})
+        return jsonify({
+            "data": category.json,
+            "status": "success",
+            "code": 200
+        })

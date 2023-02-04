@@ -33,7 +33,9 @@ class PaymentDetailResource(Resource):
     @staticmethod
     @swag_from("../swagger/payment_detail/get_all.yml")
     def get_all():
-        """ Return all payment detail key information based on the query parameter """
+        """
+        Return all payment detail key information based on the query parameter
+        """
         payment_details = PaymentDetailRepository.getAll()
         return jsonify({
             "data": payment_details,

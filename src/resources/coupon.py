@@ -54,6 +54,7 @@ class CouponResource(Resource):
         Argument("expires_at", location="json",
                  help="The expires_at of the coupon."),
     )
+    @swag_from("../swagger/coupon/put.yml")
     @requires_auth('patch:coupon')
     def update_coupon(coupon_id, code, amount, expires_at):
         """ Update a copon """
@@ -81,6 +82,7 @@ class CouponResource(Resource):
         Argument("expires_at", location="json",
                  help="The expires_at of the coupon."),
     )
+    @swag_from("../swagger/coupon/post.yml")
     @requires_auth('post:coupon')
     def post(amount, code, expires_at):
         """ Create a coupon based on the provided information """
@@ -89,6 +91,7 @@ class CouponResource(Resource):
         )
         return jsonify({"data": coupon.json})
 
+    @swag_from("../swagger/coupon/delete.yml")
     @requires_auth('delete:coupon')
     def delete(coupon_id):
         """ delete a coupoun via the provided id """

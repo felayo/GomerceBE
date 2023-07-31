@@ -67,6 +67,7 @@ class StoreResource(Resource):
         Argument("phone_verified", location="json",
                  help="The phone_verified of the store."),
     )
+    @swag_from("../swagger/store/put.yml")
     @requires_auth('patch:store')
     def update_store(
             store_id,
@@ -115,6 +116,7 @@ class StoreResource(Resource):
         Argument("sellers_id", location="json",
                  help="The sellers_id of the store."),
     )
+    @swag_from("../swagger/store/post.yml")
     @requires_auth('post:store')
     def post(
             phone,
@@ -141,6 +143,7 @@ class StoreResource(Resource):
         }
         return jsonify({"data": data})
 
+    @swag_from("../swagger/store/delete.yml")
     @requires_auth('delete:store')
     def delete(store_id):
         """ delete a Store via the provided id """

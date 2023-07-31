@@ -51,6 +51,7 @@ class StatusResource(Resource):
         Argument("order_id", location="json",
                  help="The order_id of the Statuses."),
     )
+    @swag_from("../swagger/status/put.yml")
     @requires_auth('patch:status')
     def update_status(status_id, status, order_id):
         """ Update a status based on the provided information """
@@ -66,6 +67,7 @@ class StatusResource(Resource):
         Argument("order_id", location="json",
                  help="The order_id of the Statuses."),
     )
+    @swag_from("../swagger/status/post.yml")
     @requires_auth('post:status')
     def post(status, order_id):
         """ Create a status based on the provided information """
@@ -78,6 +80,7 @@ class StatusResource(Resource):
         }
         return jsonify({"data": data})
 
+    @swag_from("../swagger/status/delete.yml")
     @requires_auth('delete:status')
     def delete(status_id):
         """ delete a status via the provided id """

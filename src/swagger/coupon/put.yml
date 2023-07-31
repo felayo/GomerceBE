@@ -1,0 +1,96 @@
+title: Update a coupon
+description: Update coupon details
+tags:
+  - Coupons
+operationId: patchcoupon
+
+parameters:
+        - name: couponID
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+
+requestBody:
+  description: Update coupon details
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          id:
+            type: integer
+          code:
+            type: string
+          amount:
+            type: string
+          expires_at:
+            type: string
+        example:
+          id: 2
+          code: DD82930
+          amount: ₦8,000
+          expires: 2024-03-19
+          
+        required:
+          - code
+          - amount
+          - expires_at
+  required: true
+
+responses:
+  200:
+    description: The coupon was Updated successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+            code:
+              type: string
+            amount:
+              type: string
+            expires_at:
+              type: string
+
+          example:
+            id: 2
+            code: DD82930
+            amount: ₦8,000
+            expires: 2024-03-19
+            
+  400:
+    description: invalid input
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+          example:
+            message: invalid input, object invalid
+  
+  401:
+    description: Not authenticated
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+          example:
+            message: Not authenticated
+  403:
+    description: Access token does not have the required scope
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+          example:
+            message: Access token does not have the required scope
+
+security:
+  - implicit:
+      - patch

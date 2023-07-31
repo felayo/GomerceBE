@@ -1,0 +1,74 @@
+title: Delete an order detail
+description: Delete a order detail
+tags:
+  - Order Details
+operationId: deleteorderdetail
+
+parameters:
+        - name: orderdetailID
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+
+responses:
+  200:
+    description: Order detail was successfully deleted base on ID
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+            sku:
+              type: string
+            orders_id:
+              type: integer
+            products_id:
+              type: integer
+            statuses_id:
+              type: integer
+
+          required:
+            - id
+            - sku
+            - orders_id
+            - products_id
+            - statuses_id
+
+          example:
+            message: The order detail was successfully deleted
+  401:
+    description: Not authenticated
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+          example:
+            message: Not authenticated
+  403:
+    description: Access token does not have the required scope
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+          example:
+            message: Access token does not have the required scope
+
+  404:
+    description: Order details not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+          example:
+            message: The order details was not found
+
+security:
+  - implicit:
+      - delete

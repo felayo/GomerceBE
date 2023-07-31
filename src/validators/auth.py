@@ -1,17 +1,15 @@
 import json
-from flask import request, _request_ctx_stack
 from functools import wraps
-from jose import jwt, ExpiredSignatureError, JWTError
 from urllib.request import urlopen
 
-import os
-from dotenv import load_dotenv
+from flask import _request_ctx_stack, request
+from jose import ExpiredSignatureError, JWTError, jwt
 
-load_dotenv()
+import config
 
-AUTH0_DOMAIN = os.getenv('AUTH0_DOMAIN')
-ALGORITHMS = os.getenv('ALGORITHMS')
-API_AUDIENCE = os.getenv('API_AUDIENCE')
+AUTH0_DOMAIN = config.AUTH0_DOMAIN
+ALGORITHMS = config.ALGORITHMS
+API_AUDIENCE = config.AUTH0_AUDIENCE
 
 # AuthError Exception
 
@@ -146,6 +144,6 @@ def requires_auth(permission=''):
             token = get_token_auth_header()
             payload = verify_decode_jwt(token)
             check_permissions(permission, payload)
-            return f(payload, *args, **kwargs)
+            return f(*args, **kwargs)
         return wrapper
     return requires_auth_decorator

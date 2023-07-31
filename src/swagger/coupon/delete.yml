@@ -1,0 +1,69 @@
+title: Delete a coupon
+description: Delete a coupon
+tags:
+  - Coupons
+operationId: deletecoupon
+
+parameters:
+        - name: couponID
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+
+responses:
+  200:
+    description: Coupon was successfully deleted base on ID
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+            code:
+              type: string
+            amount:
+              type: string
+            expires_at:
+              type: string
+          required:
+            - id
+            - code
+            - amount
+            - expires_at
+          example:
+            message: The coupon was successfully deleted
+  401:
+    description: Not authenticated
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+          example:
+            message: Not authenticated
+  403:
+    description: Access token does not have the required scope
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+          example:
+            message: Access token does not have the required scope
+
+  404:
+    description: Coupon not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+          example:
+            message: The Coupon was not found
+
+security:
+  - implicit:
+      - delete

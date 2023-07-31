@@ -1,0 +1,78 @@
+title: Delete a shipping address
+description: Delete a shipping address
+tags:
+  - Shipping Addresses
+operationId: deleteshippingaddress
+
+parameters:
+        - name: shippingaddressID
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+
+responses:
+  200:
+    description: The Shipping Address was successfully deleted base on ID
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+            country:
+              type: string
+            state:
+              type: string
+            city:
+              type: string
+            street_name:
+              type: string
+            zipcode:
+              type: integer
+            phone:
+              type: string
+          required:
+            - id
+            - country
+            - state
+            - city
+            - street_name
+            - zipcode
+            - phone
+          example:
+            message: The shipping address was successfully deleted
+  401:
+    description: Not authenticated
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+          example:
+            message: Not authenticated
+  403:
+    description: Access token does not have the required scope
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+          example:
+            message: Access token does not have the required scope
+
+  404:
+    description: Shipping Address not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+          example:
+            message: The Shipping Address was not found
+
+security:
+  - implicit:
+      - delete

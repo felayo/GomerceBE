@@ -1,0 +1,90 @@
+title: Update a status
+description: Update status details
+tags:
+  - Statuses
+operationId: patchstatus
+
+parameters:
+        - name: statusID
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+
+requestBody:
+  description: Update status details
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          id:
+            type: integer
+          status:
+            type: string
+          order_id:
+            type: integer
+          
+        example:
+          id: 2
+          status: Delivery in Progress
+          order_id: 27292010
+          
+        required:
+          - status
+          - order_id
+
+  required: true
+
+responses:
+  200:
+    description: The status was Updated successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+            status:
+              type: string
+            order_id:
+              type: integer
+            
+          example:
+            id: 2
+            status: Delivery in Progress
+            order_id: 27292010
+  400:
+    description: invalid input
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+          example:
+            message: invalid input, object invalid
+  
+  401:
+    description: Not authenticated
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+          example:
+            message: Not authenticated
+  403:
+    description: Access token does not have the required scope
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+          example:
+            message: Access token does not have the required scope
+
+security:
+  - implicit:
+      - patch

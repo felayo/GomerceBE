@@ -1,0 +1,76 @@
+title: Delete a store
+description: Delete a store
+tags:
+  - Stores
+operationId: deletestore
+
+parameters:
+        - name: storeID
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+
+responses:
+  200:
+    description: Store was successfully deleted base on ID
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+            address:
+              type: string
+            email:
+              type: string
+            phone:
+              type: string
+            sellers_id:
+              type: integer
+
+          required:
+            - id
+            - name
+            - address
+            - email
+            - phone
+            - sellers_id
+          example:
+            message: The store was successfully deleted
+  401:
+    description: Not authenticated
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+          example:
+            message: Not authenticated
+  403:
+    description: Access token does not have the required scope
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+          example:
+            message: Access token does not have the required scope
+
+  404:
+    description: Store not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+          example:
+            message: The Store was not found
+
+security:
+  - implicit:
+      - delete

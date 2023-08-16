@@ -1,26 +1,79 @@
-title: Get an order detail
-description: Return key information of an order detail given its detail id
+title: Get an order detail's detail
+description: Returns an order detail's key information
 tags:
-  - order detail
+  - Order Details
+operationId: getorderdetail
+
 parameters:
-  - name: sku
-    in: path
-    type: string
-    description: the sku of the order detail
-  - name: created_at
-    in: path
-    type: datetime
-    description: the date an order was created
-  - name: updated_at
-    in: path
-    type: datetime
-    description: the date an order was updated
+        - name: orderdetailID
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+
 responses:
   200:
-    description: The order detail's information were successfully retrieved
-    schema:
-    example:
-      data:
-        sku: XXXXXXXXXXXXXXXXXXXX
-        created_at: 08-11-2022
-        updated_at: 08-11-2022
+    description: Product was successfully retrieved base on ID
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+            sku:
+              type: string
+            orders_id:
+              type: integer
+            products_id:
+              type: integer
+            statuses_id:
+              type: integer
+
+          required:
+            - id
+            - sku
+            - orders_id
+            - products_id
+            - statuses_id
+
+          example:
+            id: 1
+            sku: SU235
+            orders_id: 4
+            products_id: 1
+            statuses_id: 2
+
+  401:
+    description: Not authenticated
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+          example:
+            message: Not authenticated
+  403:
+    description: Access token does not have the required scope
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+          example:
+            message: Access token does not have the required scope
+
+  404:
+    description: Order detail not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+          example:
+            message: The order detail was not found
+
+security:
+  - implicit:
+      - get

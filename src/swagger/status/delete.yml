@@ -1,0 +1,67 @@
+title: Delete a status
+description: Delete a status
+tags:
+  - Statuses
+operationId: deletestatus
+
+parameters:
+        - name: statusID
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+
+responses:
+  200:
+    description: Status was successfully deleted base on ID
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+            status:
+              type: string
+            order_id:
+              type: integer
+
+          required:
+            - id
+            - status
+            - order_id
+          example:
+            message: The status was successfully deleted
+  401:
+    description: Not authenticated
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+          example:
+            message: Not authenticated
+  403:
+    description: Access token does not have the required scope
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+          example:
+            message: Access token does not have the required scope
+
+  404:
+    description: Status not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+          example:
+            message: The Status was not found
+
+security:
+  - implicit:
+      - delete

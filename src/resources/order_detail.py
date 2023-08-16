@@ -59,6 +59,7 @@ class OrderDetailResource(Resource):
         Argument("statuses_id", location="json",
                  help="The statuses of the order."),
     )
+    @swag_from("../swagger/order_detail/put.yml")
     @requires_auth('patch:order_detail')
     def update(detail_id, sku, order_id, products_id, statuses_id):
         """ Update a order """
@@ -91,6 +92,7 @@ class OrderDetailResource(Resource):
         Argument("statuses_id", location="json",
                  help="The statuses of the order."),
     )
+    @swag_from("../swagger/order_detail/post.yml")
     @requires_auth('post:order_detail')
     def post(sku, orders_id, products_id, statuses_id):
         """ Create an order detail """
@@ -111,6 +113,7 @@ class OrderDetailResource(Resource):
         }
         return jsonify({"data": data})
 
+    @swag_from("../swagger/order_detail/delete.yml")
     @requires_auth('delete:order_detail')
     def delete(detail_id):
         """ delete a order via the provided id """

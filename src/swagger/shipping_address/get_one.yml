@@ -1,51 +1,84 @@
-title: Get a shipping address
-description: Return key information of a shipping address given its id
+title: Get a shipping address's detail
+description: Returns a shipping address's key information
 tags:
-  - shipping address
+  - Shipping Addresses
+operationId: getshippingaddress
+
 parameters:
-  - name: country
-    in: path
-    type: int
-    description: the country to ship
-  - name: state
-    in: path
-    type: int
-    description: the state to ship
-  - name: city
-    in: path
-    type: int
-    description: the city to ship
-  - name: street_name
-    in: path
-    type: int
-    description: the street to ship
-  - name: zipcode
-    in: path
-    type: int
-    description: the zipcode to ship
-  - name: phone
-    in: path
-    type: string
-    description: the phone number of the person
-  - name: created_at
-    in: path
-    type: datetime
-    description: the date a shipping address was created
-  - name: updated_at
-    in: path
-    type: datetime
-    description: the date a shipping address was updated
+        - name: shippingaddressID
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+
 responses:
   200:
-    description: The shipping address' information were successfully retrieved
-    schema:
-    example:
-      data:
-        country: Nigeria
-        state: Lagos
-        city: Ikotu
-        street: abuja street       
-        zip: 10030
-        phone: 080383073
-        created_at: 08-11-2022
-        updated_at: 08-11-2022
+    description: Shipping Address was successfully retrieved base on ID
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            id:
+              type: integer
+            country:
+              type: string
+            state:
+              type: string
+            city:
+              type: string
+            street_name:
+              type: string
+            zipcode:
+              type: integer
+            phone:
+              type: string
+          required:
+            - id
+            - country
+            - state
+            - city
+            - street_name
+            - zipcode
+            - phone
+          example:
+            id: 1
+            country: Nigeria
+            state: Rivers
+            city: Port Harcourt
+            street_name: 3 Olu Obasanjo Street
+            zipcode: 500200
+            phone: +2348011111111
+  401:
+    description: Not authenticated
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+          example:
+            message: Not authenticated
+  403:
+    description: Access token does not have the required scope
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+          example:
+            message: Access token does not have the required scope
+
+  404:
+    description: Shipping Address not found
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+          example:
+            message: The Shipping Address was not found
+
+security:
+  - implicit:
+      - get

@@ -48,6 +48,7 @@ class PaymentDetailResource(Resource):
         return jsonify({"data": payment_details})
 
     @staticmethod
+    @swag_from("../swagger/payment_detail/put.yml")
     @parse_params(
         Argument("amount", location="json",
                  help="The amount of the payment."),
@@ -80,15 +81,16 @@ class PaymentDetailResource(Resource):
         return jsonify({"data": data})
 
     @staticmethod
+    @swag_from("../swagger/payment_detail/post.yml")
     @parse_params(
         Argument("amount", location="json",
-                 help="The amount of the payment."),
+                help="The amount of the payment."),
         Argument("status", location="json",
-                 help="The status of the payment."),
+                help="The status of the payment."),
         Argument("orders_id", location="json",
-                 help="The orders_id of the payment."),
+                help="The orders_id of the payment."),
         Argument("payment_methods_id", location="json",
-                 help="The payment_methods_id of the payment."),
+                help="The payment_methods_id of the payment."),
     )
     @requires_auth('post:payment_detail')
     def post(amount, status, orders_id, payment_methods_id):
@@ -110,6 +112,7 @@ class PaymentDetailResource(Resource):
         }
         return jsonify({"data": data})
 
+    @swag_from("../swagger/payment_detail/delete.yml")
     @requires_auth('delete:payment_detail')
     def delete(payment_id):
         """ delete a payment via the provided id """
